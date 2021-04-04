@@ -17,8 +17,9 @@ public class LoginService {
         return loginForm.getUsername().equals(users.getUsername()) && loginForm.getPassword().equals(users.getPassword());
     }
 
-    public void saveUser(LoginForm loginForm) {
+    public LoginForm saveUser(LoginForm loginForm) {
         users.setUsername(loginForm.getUsername());
         users.setPassword(loginForm.getPassword());
+        return users;
     }
 }
