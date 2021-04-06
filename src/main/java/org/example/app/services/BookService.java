@@ -22,6 +22,7 @@ public class BookService {
     }
 
     public void saveBook(Book book) {
+        if (!book.getAuthor().isEmpty() || !book.getTitle().isEmpty() || book.getSize() != null)
         bookRepo.store(book);
     }
 

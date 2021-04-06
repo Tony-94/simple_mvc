@@ -27,10 +27,10 @@
             <br>
             <input class="login_item" type="submit" value="login">
 
-            <button th:method="post" th:action="@{login/createUser}" th:object="${loginForm}">
+            <button method="post" th:action="@{login/save}" th:object="${user}">
+                save
             </button>
         </form>
-
     </div>
 </body>
 </html>

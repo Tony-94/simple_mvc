@@ -32,11 +32,10 @@ public class BookShelfController {
 
     @PostMapping(value = "/save")
     public String saveBook(Book book) {
-        if (!book.getAuthor().isEmpty() || !book.getTitle().isEmpty() || book.getSize() != null) {
+
             bookService.saveBook(book);
             logger.info("current repositore size: " + bookService.getAllBooks().size());
             return "redirect:/books/shelf";
-        } else return "redirect:/books/shelf";
     }
 
     @PostMapping(value = "/remove")
