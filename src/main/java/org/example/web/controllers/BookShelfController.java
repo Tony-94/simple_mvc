@@ -32,7 +32,6 @@ public class BookShelfController {
 
     @PostMapping(value = "/save")
     public String saveBook(Book book) {
-
             bookService.saveBook(book);
             logger.info("current repositore size: " + bookService.getAllBooks().size());
             return "redirect:/books/shelf";
@@ -62,6 +61,24 @@ public class BookShelfController {
     @PostMapping(value = "removeSize")
     public String removeBookBySize(@RequestParam(value = "size") Integer size) {
         bookService.removeBookBySize(size);
+        return "redirect:/books/shelf";
+    }
+
+    @GetMapping(value = "/filterByAuthor")
+    public String filterBookByAuthor(@RequestParam(value = "author") String author) {
+        bookService.filterBookByAuthor(author);
+        return "redirect:/books/shelf";
+    }
+
+    @GetMapping(value = "/filterByTitle")
+    public String filterBookByTitle(@RequestParam(value = "title") String title) {
+        bookService.filterBookByTitle(title);
+        return "redirect:/books/shelf";
+    }
+
+    @GetMapping(value = "/filterBySize")
+    public String filterBookBySize(@RequestParam(value = "size") Integer size) {
+        bookService.filterBookBySize(size);
         return "redirect:/books/shelf";
     }
 }

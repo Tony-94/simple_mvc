@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
-public class BookRepository implements ProjectRepository<Book>{
+public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
 
@@ -21,9 +22,11 @@ public class BookRepository implements ProjectRepository<Book>{
 
     @Override
     public void store(Book book) {
-        book.setId(book.hashCode());
-        logger.info("store new book " + book);
-        repo.add(book);
+        if (!book.getAuthor().isEmpty() || !book.getTitle().isEmpty() || book.getSize() != null) {
+            book.setId(book.hashCode());
+            logger.info("store new book " + book);
+            repo.add(book);
+        }
     }
 
     @Override
@@ -42,7 +45,7 @@ public class BookRepository implements ProjectRepository<Book>{
         for (Book book : retreiveAll()) {
             if (book.getAuthor().equals(author)) {
                 logger.info("remove books to author complete: " + book);
-               repo.remove(book);
+                repo.remove(book);
             }
         }
         return false;
@@ -68,5 +71,24 @@ public class BookRepository implements ProjectRepository<Book>{
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean filterBookByAuthor(String author) {
+        retreiveAll().stream().filter(b -> b.getAuthor().equals(author))
+                .collect(Collectors.toList());
+        return false;
+    }
+
+    @Override
+    public void filterBookByTitle(String title) {
+        retreiveAll().stream().filter(b -> b.getTitle().equals(title))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void filterBookBySize(Integer size) {
+        retreiveAll().stream().filter(b -> b.getSize() >= size)
+                .collect(Collectors.toList());
     }
 }

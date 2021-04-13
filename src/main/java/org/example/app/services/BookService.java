@@ -22,7 +22,6 @@ public class BookService {
     }
 
     public void saveBook(Book book) {
-        if (!book.getAuthor().isEmpty() || !book.getTitle().isEmpty() || book.getSize() != null)
         bookRepo.store(book);
     }
 
@@ -40,5 +39,17 @@ public class BookService {
 
     public boolean removeBookBySize(Integer size) {
         return bookRepo.removeBookBySize(size);
+    }
+
+    public boolean filterBookByAuthor(String author) {
+        return bookRepo.filterBookByAuthor(author);
+    }
+
+    public void filterBookByTitle(String title) {
+        bookRepo.filterBookByTitle(title);
+    }
+
+    public void filterBookBySize(Integer size) {
+        bookRepo.filterBookBySize(size);
     }
 }

@@ -1,7 +1,7 @@
 package org.example.web.controllers;
 
 import org.apache.log4j.Logger;
-import org.example.app.services.LoginService;
+import org.example.app.services.LoginServiceImpl;
 import org.example.web.dto.LoginForm;
 import org.example.web.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
     private Logger logger = Logger.getLogger(LoginController.class);
-    private LoginService loginService;
+    private LoginServiceImpl loginService;
 
     @Autowired
-    public LoginController(LoginService loginService) {
+    public LoginController(LoginServiceImpl loginService) {
         this.loginService = loginService;
     }
 

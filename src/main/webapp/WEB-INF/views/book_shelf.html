@@ -100,6 +100,19 @@
             </table>
         </form>
 
+        <form method="get" th:action="@{/books/filterByAuthor}">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="author" th:name="author">
+                    </td>
+                    <td>
+                        <input type="submit" value="filterByAuthor">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
 
         <table id="books">
             <tr>

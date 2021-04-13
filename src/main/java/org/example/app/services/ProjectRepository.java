@@ -17,4 +17,10 @@ public interface ProjectRepository<T> {
     boolean removeBookByTitle(String title);
 
     boolean removeBookBySize(Integer size);
+
+    boolean filterBookByAuthor(String author);
+
+    void filterBookByTitle(String title);
+
+    void filterBookBySize(Integer size);
 }
