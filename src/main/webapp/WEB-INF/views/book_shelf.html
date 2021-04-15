@@ -40,7 +40,8 @@
                     </td>
                     <td>
                         <input type="text" placeholder="size (pages)" th:field="*{size}">
-                        l </td>
+                        <p th:if="${#fields.hasErrors()}">field value must be digit and less than 4 sings</p>
+                    </td>
                     <td>
                         <input type="submit" value="save">
                     </td>
@@ -48,14 +49,30 @@
             </table>
         </form>
 
-        <form method="post" th:action="@{/books/remove}">
+        <form method="post" th:action="@{/books/remove}" th:object="${bookIdToRemove}">
             <table>
                 <tr>
                     <td>
-                        <input type="text" placeholder="id number" th:name="bookIdToRemove">
+                        <input type="text" placeholder="id number" th:field="*{id}">
                     </td>
                     <td>
                         <input type="submit" value="removeById">
+                    </td>
+                    <td th:if="${#fields.hasErrors()}">
+                        <p>Wrong id or not found</p>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>
+                        <input type="file" name="file"/>
+                    </td>
+                    <td>
+                        <input type="submit" value="upload">
                     </td>
                 </tr>
             </table>
@@ -112,8 +129,6 @@
                 </tr>
             </table>
         </form>
-
-
         <table id="books">
             <tr>
                 <th>id</th>
