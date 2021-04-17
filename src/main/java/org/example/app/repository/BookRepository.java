@@ -1,4 +1,4 @@
-package org.example.app.services;
+package org.example.app.repository;
 
 import org.apache.log4j.Logger;
 import org.example.web.dto.Book;
@@ -74,21 +74,27 @@ public class BookRepository implements ProjectRepository<Book> {
     }
 
     @Override
-    public boolean filterBookByAuthor(String author) {
-        retreiveAll().stream().filter(b -> b.getAuthor().equals(author))
+    public List<Book> filterBookByAuthor(String author) {
+        List<Book> newBooksList = retreiveAll().stream().filter(b -> b.getAuthor().equals(author))
                 .collect(Collectors.toList());
-        return false;
+
+        return newBooksList;
     }
 
     @Override
-    public void filterBookByTitle(String title) {
+    public List<Book> filterBookByTitle(String title) {
+        List<Book> newBooksList =
         retreiveAll().stream().filter(b -> b.getTitle().equals(title))
                 .collect(Collectors.toList());
+
+        return newBooksList;
     }
 
     @Override
-    public void filterBookBySize(Integer size) {
+    public List<Book> filterBookBySize(Integer size) {
+        List<Book> newBooksList =
         retreiveAll().stream().filter(b -> b.getSize() >= size)
                 .collect(Collectors.toList());
+        return newBooksList;
     }
 }

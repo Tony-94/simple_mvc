@@ -65,20 +65,23 @@ public class BookShelfController {
     }
 
     @GetMapping(value = "/filterByAuthor")
-    public String filterBookByAuthor(@RequestParam(value = "author") String author) {
-        bookService.filterBookByAuthor(author);
-        return "redirect:/books/shelf";
+    public String filterBookByAuthor(@RequestParam(value = "author") String author, Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookList", bookService.filterBookByAuthor(author));
+        return "book_shelf";
     }
 
     @GetMapping(value = "/filterByTitle")
-    public String filterBookByTitle(@RequestParam(value = "title") String title) {
-        bookService.filterBookByTitle(title);
-        return "redirect:/books/shelf";
+    public String filterBookByTitle(@RequestParam(value = "title") String title, Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookList", bookService.filterBookByTitle(title));
+        return "book_shelf";
     }
 
     @GetMapping(value = "/filterBySize")
-    public String filterBookBySize(@RequestParam(value = "size") Integer size) {
-        bookService.filterBookBySize(size);
-        return "redirect:/books/shelf";
+    public String filterBookBySize(@RequestParam(value = "size") Integer size, Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookList", bookService.filterBookBySize(size));
+        return "book_shelf";
     }
 }

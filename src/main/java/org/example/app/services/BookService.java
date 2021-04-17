@@ -1,5 +1,7 @@
 package org.example.app.services;
 
+import org.example.app.repository.BookRepository;
+import org.example.app.repository.ProjectRepository;
 import org.example.web.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,15 +43,15 @@ public class BookService {
         return bookRepo.removeBookBySize(size);
     }
 
-    public boolean filterBookByAuthor(String author) {
+    public List<Book> filterBookByAuthor(String author) {
         return bookRepo.filterBookByAuthor(author);
     }
 
-    public void filterBookByTitle(String title) {
-        bookRepo.filterBookByTitle(title);
+    public List<Book> filterBookByTitle(String title) {
+        return bookRepo.filterBookByTitle(title);
     }
 
-    public void filterBookBySize(Integer size) {
-        bookRepo.filterBookBySize(size);
+    public List<Book> filterBookBySize(Integer size) {
+       return bookRepo.filterBookBySize(size);
     }
 }

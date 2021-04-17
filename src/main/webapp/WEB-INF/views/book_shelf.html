@@ -112,6 +112,31 @@
                 </tr>
             </table>
         </form>
+        <form method="get" th:action="@{/books/filterByTitle}">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="author" th:name="title">
+                    </td>
+                    <td>
+                        <input type="submit" value="filterByTitle">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <form method="get" th:action="@{/books/filterBySize}">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="author" th:name="size">
+                    </td>
+                    <td>
+                        <input type="submit" value="filterBySize">
+                    </td>
+                </tr>
+            </table>
+        </form>
 
 
         <table id="books">
