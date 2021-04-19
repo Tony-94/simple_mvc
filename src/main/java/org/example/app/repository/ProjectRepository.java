@@ -1,5 +1,6 @@
 package org.example.app.repository;
 
+import org.example.web.dto.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface ProjectRepository<T> {
 
     void store(T book);
 
-    boolean removeItemById(Integer bookIdRemove);
+    boolean removeItemById(Integer bookId);
 
     boolean removeBookByAuthor(String author);
 
@@ -18,9 +19,9 @@ public interface ProjectRepository<T> {
 
     boolean removeBookBySize(Integer size);
 
-    boolean filterBookByAuthor(String author);
+    List<Book> filterBookByAuthor(String author);
 
-    void filterBookByTitle(String title);
+    List<Book> filterBookByTitle(String title);
 
-    void filterBookBySize(Integer size);
+    List<Book> filterBookBySize(Integer size);
 }

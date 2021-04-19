@@ -2,7 +2,7 @@ package org.example.web.dto;
 
 import javax.validation.constraints.NotNull;
 
-public class BookIdToRemove {
+public class BookId {
 
     @NotNull
     private Integer id;

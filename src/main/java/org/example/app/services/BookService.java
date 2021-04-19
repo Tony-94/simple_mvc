@@ -31,8 +31,8 @@ public class BookService {
         return bookRepo.removeItemById(bookIdRemove);
     }
 
-    public boolean removeBookByAuthor(String author) {
-        return bookRepo.removeBookByAuthor(author);
+    public boolean removeBookByAuthor(String bookAuthorToRemove) {
+        return bookRepo.removeBookByAuthor(bookAuthorToRemove);
     }
 
     public boolean removeBookByTitle(String title) {
@@ -43,15 +43,15 @@ public class BookService {
         return bookRepo.removeBookBySize(size);
     }
 
-    public boolean filterBookByAuthor(String author) {
+    public List<Book> filterBookByAuthor(String author) {
         return bookRepo.filterBookByAuthor(author);
     }
 
-    public void filterBookByTitle(String title) {
-        bookRepo.filterBookByTitle(title);
+    public List<Book> filterBookByTitle(String title) {
+        return bookRepo.filterBookByTitle(title);
     }
 
-    public void filterBookBySize(Integer size) {
-        bookRepo.filterBookBySize(size);
+    public List<Book> filterBookBySize(Integer size) {
+        return bookRepo.filterBookBySize(size);
     }
 }

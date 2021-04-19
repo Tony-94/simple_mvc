@@ -51,65 +51,62 @@ public class BookRepository implements ProjectRepository<Book> {
     }
 
     @Override
-    public boolean removeItemById(Integer bookIdRemove) {
+    public boolean removeItemById(Integer bookId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("id", bookIdRemove);
+        parameterSource.addValue("id", bookId);
         jdbcTemplate.update("DELETE FROM books WHERE id = :id", parameterSource);
         logger.info("remove book complete");
         return true;
     }
 
     @Override
-    public boolean removeBookByAuthor(String author) {
-        for (Book book : retreiveAll()) {
-            if (book.getAuthor().equals(author)) {
-                logger.info("remove books to author complete: " + book);
-//                repo.remove(book);
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeBookByTitle(String title) {
-        for (Book book : retreiveAll()) {
-            if (book.getTitle().equals(title)) {
-                logger.info("remove books to title complete: " + book);
-//                repo.remove(book);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeBookBySize(Integer size) {
-        for (Book book : retreiveAll()) {
-            if (book.getSize().equals(size)) {
-                logger.info("remove books to size complete: " + book);
-//                repo.remove(book);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean filterBookByAuthor(String author) {
-        retreiveAll().stream().filter(b -> b.getAuthor().equals(author))
-                .collect(Collectors.toList());
+    public boolean removeBookByAuthor(String bookAuthor) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("author" , bookAuthor);
+        jdbcTemplate.update("DELETE FROM books WHERE author = :author" , parameterSource);
+        logger.info("remove book by author complete");
         return true;
     }
 
     @Override
-    public void filterBookByTitle(String title) {
-        retreiveAll().stream().filter(b -> b.getTitle().equals(title))
-                .collect(Collectors.toList());
+    public boolean removeBookByTitle(String bookTitle) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("title" , bookTitle);
+        jdbcTemplate.update("DELETE FROM books WHERE title = :title" , parameterSource);
+        logger.info("remove book by title  complete");
+        return true;
     }
 
     @Override
-    public void filterBookBySize(Integer size) {
-        retreiveAll().stream().filter(b -> b.getSize() >= size)
+    public boolean removeBookBySize(Integer bookSize) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("size" , bookSize);
+        jdbcTemplate.update("DELETE FROM books WHERE size = :size" , parameterSource);
+        logger.info("remove book by size complete");
+        return true;
+    }
+
+    @Override
+    public List<Book> filterBookByAuthor(String author) {
+        List<Book> newBookList =
+                retreiveAll().stream().filter(b -> b.getAuthor().equals(author))
                 .collect(Collectors.toList());
+        return newBookList;
+    }
+
+    @Override
+    public List<Book> filterBookByTitle(String title) {
+        List<Book> newBookList =
+                retreiveAll().stream().filter(b -> b.getTitle().equals(title))
+                .collect(Collectors.toList());
+        return newBookList;
+    }
+
+    @Override
+    public List<Book> filterBookBySize(Integer size) {
+        List<Book> newBookList =
+                retreiveAll().stream().filter(b -> b.getSize() >= size)
+                .collect(Collectors.toList());
+        return newBookList;
     }
 }
