@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -24,7 +29,7 @@ public class BookShelfController {
 
     private Logger logger = Logger.getLogger(BookShelfController.class);
 
-    private static final String EXTERNAL_FILE_PATH = "/Users/antonzukov/Desktop/Java/apache-tomcat-9.0.37/external_uploads";
+    private static final String EXTERNAL_FILE_PATH = "/Users/antonzukov/Desktop/Java/apache-tomcat-9.0.37/external_uploads/";
 
     private BookService bookService;
 
@@ -79,7 +84,7 @@ public class BookShelfController {
     }
 
     @PostMapping(value = "/removeAuthor")
-    public String removeBooks(@Valid BookAuthor bookAuthor, BindingResult bindingResult,
+    public String removeBookToAuthor(@Valid BookAuthor bookAuthor, BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("book", new Book());
@@ -127,7 +132,7 @@ public class BookShelfController {
     }
 
     @GetMapping(value = "/filterByAuthor")
-    public String filterBookByAuthor(@Valid BookAuthor bookAuthor, BindingResult bindingResult, Model model) {
+    public String filterBookByAuthor(@Valid BookAuthor bookAuthor, Model model) {
             model.addAttribute("book", new Book());
             model.addAttribute("bookId", new BookId());
             model.addAttribute("bookAuthor", new BookAuthor());
@@ -187,34 +192,38 @@ public class BookShelfController {
         }
     }
 
-    @GetMapping("/file/{fileName:.+}")
+    @GetMapping("/downloadFile")
     public void downloadFile(HttpServletResponse response,
-                                    @PathVariable("fileName") String fileName) throws IOException {
+                                    @RequestParam("fileName") String fileName) throws IOException, UploadFileExceptions {
+            if (!fileName.isEmpty()) {
+                File file = new File(EXTERNAL_FILE_PATH + fileName);
+                if (file.exists()) {
+                    try {
+                        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+                        if (mimeType == null) {
+                            mimeType = "application/octet-stream";
+                        }
+                        response.setContentType(mimeType);
 
-        File file = new File(EXTERNAL_FILE_PATH + fileName);
-        if (file.exists()) {
-            //get the mimetype
-            String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-            if (mimeType == null) {
-                //unknown mimetype so set the mimetype to application/octet-stream
-                mimeType = "application/octet-stream";
-            }
+                        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
 
-            response.setContentType(mimeType);
+                        response.setContentLength((int) file.length());
 
-            response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+                        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 
-            //Here we have mentioned it to show as attachment
-            // response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
 
-            response.setContentLength((int) file.length());
-
-            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
-            FileCopyUtils.copy(inputStream, response.getOutputStream());
-
+                        FileCopyUtils.copy(inputStream, response.getOutputStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                logger.info("file is empty");
+                throw new UploadFileExceptions("file name is not specified or there is no such file on the server");
         }
     }
+
+
 
     @ExceptionHandler(UploadFileExceptions.class)
     public String handleError(Model model, UploadFileExceptions exception) {
